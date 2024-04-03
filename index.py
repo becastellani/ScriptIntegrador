@@ -22,7 +22,7 @@ conn_mysql = mysql.connector.connect(
 
 cursor_mysql = conn_mysql.cursor()
 
-consulta_sqlite = "SELECT nome_fantasia, nome_fantasia, cnpj, cep, logradouro, numero, complemento FROM estabelecimento"
+consulta_sqlite = "SELECT nome_fantasia, empresas.razao_social, cnpj, cep, logradouro, numero, complemento FROM estabelecimento INNER JOIN empresas ON estabelecimento.cnpj_basico = empresas.cnpj_basico"
 
 cursor_sqlite.execute(consulta_sqlite)
 
@@ -34,7 +34,7 @@ for row in cursor_sqlite:
     #Gerando os valores aleatorios para meus setores e portes
     setor_id, porte_id = gerar_valores_aleatorios()
     
-    cursor_mysql.execute("INSERT INTO empresa (nome_fantasia, razao_social, cnpj, cep, logradouro, numero, complemento, setor_id, porte_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (row[0], row[0], row[2], row[3], row[4], row[5], row[6], setor_id, porte_id))
+    cursor_mysql.execute("INSERT INTO empresa (nome_fantasia, razao_social, cnpj, cep, logradouro, numero, complemento, setor_id, porte_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], setor_id, porte_id))
     
     contador_linhas += 1
     
